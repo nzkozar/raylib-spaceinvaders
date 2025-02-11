@@ -35,3 +35,11 @@ void MysteryShip::Spawn(){
     }
     alive = true;
 }
+
+Rectangle MysteryShip::GetRect(){
+    if(alive){
+        return {position.x,position.y,float(image.width),float(image.height)};
+    }else{
+        return {position.x,position.y,0,0};
+    }
+}

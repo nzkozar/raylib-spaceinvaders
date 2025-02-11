@@ -60,6 +60,8 @@ void Game::Update(){
     }
 
     mysteryShip.Update();
+
+    CheckForCollisions();
 }
 
 void Game::HandleInput(){
@@ -150,5 +152,59 @@ void Game::AlienShootLaser(){
         Alien& alien = aliens[randomIndex];
         alienLasers.push_back(Laser({alien.position.x + alien.GetImage().width/2,alien.position.y},4));
         lastAlienLaserFiredTime = GetTime();
+    }
+}
+
+void Game::CheckForCollisions(){
+    //Spaceship lasers
+    for(Laser& laser: spaceship.lasers){
+        auto it = aliens.begin();
+        while(it != aliens.end()){
+            if(CheckCollisionRecs(it -> GetRect(), laser.GetRect())){
+                it = aliens.erase(it);
+                laser.isActive = false;
+            }else{
+                ++it;
+            }
+        }
+
+        for(Obstacle& obstacle: obstacles){
+            auto it = obstacle.blocks.begin();
+            while(it != obstacle.blocks.end()){
+                if(CheckCollisionRecs(it -> GetRect(), laser.GetRect())){
+                    it = obstacle.blocks.erase(it);
+                    laser.isActive = false;
+                }else{
+                    ++it;
+                }
+            }
+        }
+
+        //Mystery ship
+        if(CheckCollisionRecs(mysteryShip.GetRect(),laser.GetRect())){
+            mysteryShip.alive = false;
+            laser.isActive = false;
+        }
+    }
+
+    //Alien lasers
+    for(Laser& laser: alienLasers){
+        //Player ship
+        if(CheckCollisionRecs(spaceship.GetRect(),laser.GetRect())){
+            //TODO life count down
+            laser.isActive = false;
+        }
+
+        for(Obstacle& obstacle: obstacles){
+            auto it = obstacle.blocks.begin();
+            while(it != obstacle.blocks.end()){
+                if(CheckCollisionRecs(it -> GetRect(), laser.GetRect())){
+                    it = obstacle.blocks.erase(it);
+                    laser.isActive = false;
+                }else{
+                    ++it;
+                }
+            }
+        }
     }
 }

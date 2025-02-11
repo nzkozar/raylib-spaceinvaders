@@ -36,6 +36,10 @@ Texture2D Alien::GetImage(){
     return images[type-1];
 }
 
+Rectangle Alien::GetRect(){
+    return {position.x,position.y,float(GetImage().width),float(GetImage().height)};
+}
+
 void Alien::UnloadImages(){
     for(int i = 0;i<3;i++){
         UnloadTexture(images[i]);

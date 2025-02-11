@@ -12,6 +12,10 @@ void Laser::Draw(){
     }
 }
 
+Rectangle Laser::GetRect(){
+    return {position.x,position.y,WIDTH,HEIGHT};
+}
+
 void Laser::Update(){
     position.y += speed;
     if(isActive){
