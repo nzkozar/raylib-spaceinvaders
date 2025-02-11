@@ -2,7 +2,7 @@
 #include "game.hpp"
 
 int main() {
-    const Color darkGreen = {20, 160, 133, 255};
+    const Color darkGreen = {29, 29, 27, 255};
     
     constexpr int screenWidth = 750;
     constexpr int screenHeight = 700;
@@ -12,6 +12,8 @@ int main() {
     SetTargetFPS(60);
     
     Game game;
+
+    
 
     while (!WindowShouldClose()){
         game.HandleInput();
