@@ -1,3 +1,6 @@
+# Space invaders tutorial project using Raylib
+Following the Youtube tutorial: https://www.youtube.com/watch?v=TGo3Oxdpr5o
+
 # Raylib-CPP-Starter-Template-for-VSCODE-V2
 Raylib C++ Starter Template for Visual Studio Code on Windows.
 This demo project contains a bouncing ball raylib example program.
