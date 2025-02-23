@@ -14,6 +14,7 @@ class Game{
         void Update();
         void HandleInput();
         bool run;
+        int score;
     private:
         void DeleteInactiveLasers();
         void CreateObstacles();

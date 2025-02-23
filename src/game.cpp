@@ -1,5 +1,12 @@
 #include "game.hpp"
 #include <iostream>
+#include <string>
+
+std::string FormatWithLeadingZeroes(int number, int width){
+    std::string numberText = std::to_string(number);
+    int leadingZeroes = width - numberText.length();
+    return std::string(leadingZeroes,'0') + numberText;
+}
 
 //Constructor
 Game::Game(){
@@ -39,15 +46,23 @@ void Game::Draw(){
 void Game::DrawUI(){
     DrawRectangleRoundedLinesEx({10,10,780,780},0.18f,20,3,UI_COLOR);
     DrawLineEx({25,730},{775,730},3,UI_COLOR);
+
+    //Level / game state text
     if(run){
-        DrawTextEx(font, "LEVEL 01",{570,740},34,2,UI_COLOR);
+        DrawTextEx(font, "LEVEL 01", {570,740} ,34, 2, UI_COLOR);
     }else{
-        DrawTextEx(font, "GAME OVER",{570,740},34,2,UI_COLOR);
+        DrawTextEx(font, "GAME OVER", {570,740}, 34, 2, UI_COLOR);
     }
     
+    //Lives represented with spaceship images
     for(int i = 0; i < lives; i++){
-        DrawTextureV(spaceshipImage,{50.0f * (i+1),745},WHITE);
+        DrawTextureV(spaceshipImage,{50.0f * (i+1),745}, WHITE);
     }
+
+    //Score text
+    DrawTextEx(font, "SCORE", {50,15}, 34, 2, UI_COLOR);
+    std::string scoreText = FormatWithLeadingZeroes(score,5);
+    DrawTextEx(font, scoreText.c_str(), {50,45}, 34, 2, UI_COLOR);
 }
 
 void Game::Update(){
@@ -178,16 +193,21 @@ void Game::AlienShootLaser(){
 void Game::CheckForCollisions(){
     //Spaceship lasers
     for(Laser& laser: spaceship.lasers){
+        //Aliens
         auto it = aliens.begin();
         while(it != aliens.end()){
             if(CheckCollisionRecs(it -> GetRect(), laser.GetRect())){
+                score+= (it->type)*100;
+
                 it = aliens.erase(it);
                 laser.isActive = false;
+
             }else{
                 ++it;
             }
         }
 
+        //Obstacles
         for(Obstacle& obstacle: obstacles){
             auto it = obstacle.blocks.begin();
             while(it != obstacle.blocks.end()){
@@ -204,6 +224,7 @@ void Game::CheckForCollisions(){
         if(CheckCollisionRecs(mysteryShip.GetRect(),laser.GetRect())){
             mysteryShip.alive = false;
             laser.isActive = false;
+            score+=500;
         }
     }
 
@@ -213,6 +234,10 @@ void Game::CheckForCollisions(){
         if(CheckCollisionRecs(spaceship.GetRect(),laser.GetRect())){
             //TODO life count down
             laser.isActive = false;
+            //Deduct score
+            score-=1000;
+            if(score<0)score=0;
+            //Deduct lives
             lives--;
             if(lives == 0){
                 GameOver();
@@ -272,6 +297,7 @@ void Game::InitGame(){
     aliensDirection = 1;
     lastAlienLaserFiredTime = 5;
     lives = 3;
+    score = 0;
     run = true;
 
     //Mystery ship
