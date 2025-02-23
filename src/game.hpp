@@ -15,6 +15,7 @@ class Game{
         void HandleInput();
         bool run;
         int score;
+        int highscore;
     private:
         void DeleteInactiveLasers();
         void CreateObstacles();
@@ -26,6 +27,10 @@ class Game{
         void GameOver();
         void Reset();
         void InitGame();
+        void AddScore(int scoreIncrease);
+        void SaveHighscore(int highscore);
+        int LoadHighscore();
+
 
         Spaceship spaceship;
         std::vector<Obstacle> obstacles;
