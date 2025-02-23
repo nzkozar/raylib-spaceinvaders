@@ -15,8 +15,10 @@ class Spaceship{
         void MoveRight();
         void FireLaser();
         Rectangle GetRect();
+        void Reset();
         std::vector<Laser> lasers;
     private:
+        void InitPosition();
         Texture2D image;
         Vector2 position;
         double lastFiredTime;

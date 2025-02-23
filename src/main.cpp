@@ -1,29 +1,27 @@
 #include <raylib.h>
 #include "game.hpp"
+#include "colors.h"
+
+#define UI_OFFSET_PX 50
 
 int main() {
-    const Color darkGreen = {29, 29, 27, 255};
-    
     constexpr int screenWidth = 750;
     constexpr int screenHeight = 700;
     
-    
-    InitWindow(screenWidth, screenHeight, "Space Invaders");
+    InitWindow(screenWidth + UI_OFFSET_PX, screenHeight + 2*UI_OFFSET_PX, "C++ Space Invaders");
+
     SetTargetFPS(60);
     
     Game game;
-
-    
 
     while (!WindowShouldClose()){
         game.HandleInput();
         game.Update();
 
         BeginDrawing();
-
-        ClearBackground(darkGreen);
+        ClearBackground(BG_COLOR);
+        game.DrawUI();
         game.Draw();
-
         EndDrawing();
     }
     

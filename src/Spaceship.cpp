@@ -1,9 +1,9 @@
 #include "Spaceship.hpp"
+#define SPACESHIP_SPEED 7
 
 Spaceship::Spaceship(){
     image = LoadTexture("Graphics/spaceship.png");
-    position.x = (GetScreenWidth() - image.width)/2;
-    position.y = GetScreenHeight() - image.height;
+    InitPosition();
     lastFiredTime = 0.0;
 }
 
@@ -16,16 +16,16 @@ void Spaceship::Draw(){
 }
 
 void Spaceship::MoveLeft(){
-    position.x -= 7;
-    if(position.x<0){
-        position.x = 0;
+    position.x -= SPACESHIP_SPEED;
+    if(position.x<25){
+        position.x = 25;
     }
 }
 
 void Spaceship::MoveRight(){
-    position.x += 7;
-    if(position.x>GetScreenWidth()-image.width){
-        position.x = GetScreenWidth()-image.width;
+    position.x += SPACESHIP_SPEED;
+    if(position.x>GetScreenWidth()-image.width - 25){
+        position.x = GetScreenWidth()-image.width - 25;
     }
 }
 
@@ -38,4 +38,14 @@ void Spaceship::FireLaser(){
 
 Rectangle Spaceship::GetRect(){
     return {position.x,position.y,float(image.width),float(image.height)};
+}
+
+void Spaceship::Reset(){
+    InitPosition();
+    lasers.clear();
+}
+
+void Spaceship::InitPosition(){
+    position.x = (GetScreenWidth() - image.width)/2;
+    position.y = GetScreenHeight() - image.height - 100;
 }
