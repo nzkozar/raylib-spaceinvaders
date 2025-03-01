@@ -16,12 +16,19 @@ Game::Game(){
     
     font = LoadFontEx("Font/monogram.ttf",64,0,0);
     spaceshipImage = LoadTexture("Graphics/spaceship.png");
+
+    music = LoadMusicStream("Sounds/music.ogg");
+    PlayMusicStream(music);
+
+    explosionSound = LoadSound("Sounds/explosion.ogg");
 }
 
 //Destructor
 Game::~Game(){
     Alien::UnloadImages();
     UnloadFont(font);
+    UnloadMusicStream(music);
+    UnloadSound(explosionSound);
 }
 
 void Game::Draw(){
@@ -204,10 +211,14 @@ void Game::CheckForCollisions(){
         auto it = aliens.begin();
         while(it != aliens.end()){
             if(CheckCollisionRecs(it -> GetRect(), laser.GetRect())){
+                PlaySound(explosionSound);
                 AddScore((it->type)*100);
 
                 it = aliens.erase(it);
                 laser.isActive = false;
+                if(aliens.size() == 0){
+                    //TODO level complete
+                }
             }else{
                 ++it;
             }
@@ -228,6 +239,7 @@ void Game::CheckForCollisions(){
 
         //Mystery ship
         if(CheckCollisionRecs(mysteryShip.GetRect(),laser.GetRect())){
+            PlaySound(explosionSound);
             mysteryShip.alive = false;
             laser.isActive = false;
             AddScore(500);
@@ -340,4 +352,11 @@ int Game::LoadHighscore(){
         std::cerr << "Failed to load highscore from file" << std::endl;
     }
     return loadedHighscore;
+}
+
+/**
+ * Stop game logic execution and display level overview
+ */
+void Game::LevelComplete(){
+//TODO
 }

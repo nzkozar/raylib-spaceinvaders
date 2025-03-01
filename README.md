@@ -30,3 +30,10 @@ The template now uses folders for better organizion of the files. So, all the so
 | 📺 <a href="https://www.youtube.com/channel/UC3ivOTE5EgpmF2DHLBmWIWg">My YouTube Channel</a>
 | 🌍 <a href="http://www.programmingwithnick.com">My Website</a> | <br>
 </p>
+
+# TODO
+- Level complete UI & sound
+- Spaceship life lost animation & sound
+- Game over sound
+- Gamepad support
+- Export for Windows and Linux

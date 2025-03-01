@@ -9,12 +9,15 @@ int main() {
     constexpr int screenHeight = 700;
     
     InitWindow(screenWidth + UI_OFFSET_PX, screenHeight + 2*UI_OFFSET_PX, "C++ Space Invaders");
+    InitAudioDevice();
+
 
     SetTargetFPS(60);
     
     Game game;
 
     while (!WindowShouldClose()){
+        UpdateMusicStream(game.music);
         game.HandleInput();
         game.Update();
 
@@ -25,5 +28,6 @@ int main() {
         EndDrawing();
     }
     
+    CloseAudioDevice();
     CloseWindow();
 }

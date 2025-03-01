@@ -5,10 +5,13 @@ Spaceship::Spaceship(){
     image = LoadTexture("Graphics/spaceship.png");
     InitPosition();
     lastFiredTime = 0.0;
+
+    laserSound = LoadSound("Sounds/laser.ogg");
 }
 
 Spaceship::~Spaceship(){
     UnloadTexture(image);
+    UnloadSound(laserSound);
 }
 
 void Spaceship::Draw(){
@@ -33,6 +36,7 @@ void Spaceship::FireLaser(){
     if(GetTime()-lastFiredTime >= 0.35){
         lasers.push_back(Laser({position.x + image.width/2 - Laser::WIDTH/2,position.y},LASER_SPEED));
         lastFiredTime = GetTime();
+        PlaySound(laserSound);
     }
 }
 

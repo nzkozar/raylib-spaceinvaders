@@ -16,6 +16,7 @@ class Game{
         bool run;
         int score;
         int highscore;
+        Music music;
     private:
         void DeleteInactiveLasers();
         void CreateObstacles();
@@ -30,7 +31,7 @@ class Game{
         void AddScore(int scoreIncrease);
         void SaveHighscore(int highscore);
         int LoadHighscore();
-
+        void LevelComplete();
 
         Spaceship spaceship;
         std::vector<Obstacle> obstacles;
@@ -45,4 +46,5 @@ class Game{
         int lives;
         Font font;
         Texture2D spaceshipImage;
+        Sound explosionSound;
 };
